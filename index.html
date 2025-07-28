@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Management Dashboard</title>
+    <!-- Link to Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to Google Fonts for Inter and Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Link to custom stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-dark-background text-light-text font-inter overflow-x-hidden">
+
+    <!-- New: Animated Black Bar at the Very Top -->
+    <div id="topAnimatedBar" class="top-animated-bar"></div>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center py-24 px-4 mb-16">
+        <h1 class="main-title animate-fade-in-up">
+            Financial Intelligence Hub
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-10 animate-fade-in-up delay-200">
+            Unlocking financial clarity and strategic growth for your enterprise.
+        </p>
+        <!-- The old header-gradient-line div is removed from here -->
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 animate-fade-in">
+            <div class="loader text-accent-red text-3xl font-semibold animate-pulse-loader">
+                Calculating Insights...
+            </div>
+        </div>
+
+        <!-- Section 1: Income Statement -->
+        <div class="card-premium animate-slide-in-left">
+            <h2 class="section-title-premium">1. Income Statement</h2>
+            <p class="text-gray-400 mb-6 animate-fade-in-up delay-100">
+                Analyze your company's financial performance over a specific period.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="input-group">
+                    <label for="totalRevenue">Total Revenue</label>
+                    <input type="number" id="totalRevenue" placeholder="Enter total revenue">
+                </div>
+                <div class="input-group">
+                    <label for="cogs">Cost of Goods Sold (COGS)</label>
+                    <input type="number" id="cogs" placeholder="Enter COGS">
+                </div>
+                <div class="input-group">
+                    <label for="operatingExpenses">Operating Expenses</label>
+                    <input type="number" id="operatingExpenses" placeholder="Enter operating expenses">
+                </div>
+                <div class="input-group">
+                    <label for="interestExpense">Interest Expense</label>
+                    <input type="number" id="interestExpense" placeholder="Enter interest expense">
+                </div>
+                <div class="input-group">
+                    <label for="taxExpense">Tax Expense</label>
+                    <input type="number" id="taxExpense" placeholder="Enter tax expense">
+                </div>
+            </div>
+            <button onclick="calculateIncomeStatement()" class="btn-premium w-full animate-bounce-in-btn">Calculate Income Statement</button>
+            <div id="incomeStatementResult" class="result-box-premium hidden">
+                <div class="result-item animate-fade-in-up-result"><span>Gross Profit</span> <span id="grossProfit"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-100"><span>EBIT</span> <span id="ebit"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-200"><span>Net Profit</span> <span id="netProfit"></span></div>
+            </div>
+        </div>
+
+        <!-- Section 2: Balance Sheet -->
+        <div class="card-premium animate-slide-in-right">
+            <h2 class="section-title-premium">2. Balance Sheet</h2>
+            <p class="text-gray-400 mb-6 animate-fade-in-up delay-100">
+                A snapshot of your company's financial position at a specific point in time.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="input-group">
+                    <label for="totalAssets">Total Assets</label>
+                    <input type="number" id="totalAssets" placeholder="Enter total assets">
+                </div>
+                <div class="input-group">
+                    <label for="totalLiabilities">Total Liabilities</label>
+                    <input type="number" id="totalLiabilities" placeholder="Enter total liabilities">
+                </div>
+            </div>
+            <button onclick="calculateBalanceSheet()" class="btn-premium w-full animate-bounce-in-btn">Calculate Balance Sheet</button>
+            <div id="balanceSheetResult" class="result-box-premium hidden">
+                <div class="result-item animate-fade-in-up-result"><span>Equity</span> <span id="equity"></span></div>
+            </div>
+        </div>
+
+        <!-- Section 3: Financial Ratios -->
+        <div class="card-premium animate-slide-in-left">
+            <h2 class="section-title-premium">3. Financial Ratios</h2>
+            <p class="text-gray-400 mb-6 animate-fade-in-up delay-100">
+                Key metrics to evaluate your company's performance, liquidity, and solvency.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="input-group">
+                    <label for="currentAssets">Current Assets</label>
+                    <input type="number" id="currentAssets" placeholder="Enter current assets">
+                </div>
+                <div class="input-group">
+                    <label for="currentLiabilities">Current Liabilities</label>
+                    <input type="number" id="currentLiabilities" placeholder="Enter current liabilities">
+                </div>
+                <div class="input-group">
+                    <label for="inventory">Inventory</label>
+                    <input type="number" id="inventory" placeholder="Enter inventory">
+                </div>
+                <div class="input-group">
+                    <label for="accountsReceivable">Accounts Receivable</label>
+                    <input type="number" id="accountsReceivable" placeholder="Enter accounts receivable">
+                </div>
+            </div>
+            <button onclick="calculateFinancialRatios()" class="btn-premium w-full animate-bounce-in-btn">Calculate Financial Ratios</button>
+            <div id="financialRatiosResult" class="result-box-premium hidden">
+                <h3 class="ratio-subtitle-premium">Profitability Ratios</h3>
+                <div class="result-item animate-fade-in-up-result"><span>Gross Profit Margin</span> <span id="grossProfitMargin"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-100"><span>Operating Margin</span> <span id="operatingMargin"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-200"><span>Net Profit Margin</span> <span id="netProfitMargin"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-300"><span>Return on Assets (ROA)</span> <span id="roa"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-400"><span>Return on Equity (ROE)</span> <span id="roe"></span></div>
+
+                <h3 class="ratio-subtitle-premium mt-6">Liquidity Ratios</h3>
+                <div class="result-item animate-fade-in-up-result delay-500"><span>Current Ratio</span> <span id="currentRatio"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-600"><span>Quick Ratio (Acid-Test)</span> <span id="quickRatio"></span></div>
+
+                <h3 class="ratio-subtitle-premium mt-6">Efficiency Ratios</h3>
+                <div class="result-item animate-fade-in-up-result delay-700"><span>Inventory Turnover</span> <span id="inventoryTurnover"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-800"><span>Accounts Receivable Turnover</span> <span id="accountsReceivableTurnover"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-900"><span>Asset Turnover</span> <span id="assetTurnover"></span></div>
+
+                <h3 class="ratio-subtitle-premium mt-6">Leverage Ratios</h3>
+                <div class="result-item animate-fade-in-up-result delay-1000"><span>Debt to Equity Ratio (D/E)</span> <span id="debtToEquityRatio"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-1100"><span>Debt Ratio</span> <span id="debtRatio"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-1200"><span>Interest Coverage Ratio</span> <span id="interestCoverageRatio"></span></div>
+            </div>
+        </div>
+
+        <!-- Section 4: Break-Even Point -->
+        <div class="card-premium animate-slide-in-right">
+            <h2 class="section-title-premium">4. Break-Even Point</h2>
+            <p class="text-gray-400 mb-6 animate-fade-in-up delay-100">
+                Determine the sales volume or revenue needed to cover all costs and achieve profitability.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="input-group">
+                    <label for="fixedCost">Fixed Cost</label>
+                    <input type="number" id="fixedCost" placeholder="Enter fixed cost">
+                </div>
+                <div class="input-group">
+                    <label for="sellingPricePerUnit">Selling Price Per Unit</label>
+                    <input type="number" id="sellingPricePerUnit" placeholder="Enter selling price per unit">
+                </div>
+                <div class="input-group">
+                    <label for="variableCostPerUnit">Variable Cost Per Unit</label>
+                    <input type="number" id="variableCostPerUnit" placeholder="Enter variable cost per unit">
+                </div>
+            </div>
+            <button onclick="calculateBreakEvenPoint()" class="btn-premium w-full animate-bounce-in-btn">Calculate Break-Even Point</button>
+            <div id="breakEvenPointResult" class="result-box-premium hidden">
+                <div class="result-item animate-fade-in-up-result"><span>Break-Even Units</span> <span id="breakEvenUnits"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-100"><span>Break-Even Revenue</span> <span id="breakEvenRevenue"></span></div>
+            </div>
+        </div>
+
+        <!-- Section 5: Compound Interest Calculator -->
+        <div class="card-premium animate-slide-in-left">
+            <h2 class="section-title-premium">5. Compound Interest Calculator</h2>
+            <p class="text-gray-400 mb-6 animate-fade-in-up delay-100">
+                Project the exponential growth of your investments over time with regular contributions.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="input-group">
+                    <label for="principal">Principal Amount</label>
+                    <input type="number" id="principal" placeholder="Enter principal amount">
+                </div>
+                <div class="input-group">
+                    <label for="annualRate">Annual Return Rate (%)</label>
+                    <input type="number" id="annualRate" step="0.01" placeholder="e.g., 5">
+                </div>
+                <div class="input-group">
+                    <label for="years">Investment Period (Years)</label>
+                    <input type="number" id="years" placeholder="Enter number of years">
+                </div>
+                <div class="input-group">
+                    <label for="compoundingFrequency">Compounding Frequency</label>
+                    <select id="compoundingFrequency">
+                        <option value="1">Annually</option>
+                        <option value="2">Semi-annually</option>
+                        <option value="4">Quarterly</option>
+                        <option value="12">Monthly</option>
+                        <option value="365">Daily</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="monthlyContribution">Monthly Contribution (Optional)</label>
+                    <input type="number" id="monthlyContribution" placeholder="Enter monthly contribution">
+                </div>
+            </div>
+            <button onclick="calculateCompoundInterest()" class="btn-premium w-full animate-bounce-in-btn">Calculate Compound Interest</button>
+            <div id="compoundInterestResult" class="result-box-premium hidden">
+                <div class="result-item animate-fade-in-up-result"><span>Future Value</span> <span id="futureValue"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-100"><span>Total Interest Earned</span> <span id="totalInterestEarned"></span></div>
+                <div class="result-item animate-fade-in-up-result delay-200"><span>Total Invested</span> <span id="totalInvested"></span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom Alert Box -->
+    <div id="customAlert" class="alert-box-premium hidden">
+        <p id="alertMessage" class="font-semibold text-lg"></p>
+        <button onclick="hideAlert()" class="absolute top-2 right-2 text-white hover:text-gray-300 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Link to custom JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
